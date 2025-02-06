@@ -18,15 +18,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
 app.UseCors("AllowAll");
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
+// {
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDo API V1");
-        c.RoutePrefix = string.Empty;
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDo API V1");
+    c.RoutePrefix = string.Empty;
+});
+// }
 
 app.MapGet("/items", async (ToDoDbContext db) =>
     await db.Items.ToListAsync());
